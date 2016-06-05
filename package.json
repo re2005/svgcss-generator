@@ -1,0 +1,15 @@
+{
+  "name": "svgcss-generator",
+  "version": "1.0.0",
+  "description": "svg css genertor",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app/app",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Renato Cardoso @re2005",
+  "license": "ISC",
+  "dependencies": {
+    "gulp-fontello-import": "0.0.1"
+  }
+}
