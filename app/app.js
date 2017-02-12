@@ -10,8 +10,7 @@ let fs = require('fs'),
     importer = require('gulp-fontello-import'),
     constants = require('./config.js'),
     cssFile = '',
-    name = /embedded/,
-    count = 0;
+    name = /embedded/;
 
 function importSvg() {
     importer.importSvg({
@@ -33,9 +32,7 @@ function getFont() {
 }
 
 function findCssFile() {
-
     var walker = walk.walk('./icon-example', {followLinks: false});
-
     walker.on('file', function (root, stat, next) {
         if (name.test(stat.name)) {
             cssFile = root + "/" + stat.name;
