@@ -1,15 +1,18 @@
 {
   "name": "svgcss-generator",
-  "version": "1.0.0",
-  "description": "svg css genertor",
+  "version": "1.0.1",
+  "description": "generate embedded css from svg files",
+  "author": "Renato Cardoso <re2005@gmail.com>",
   "main": "app.js",
   "scripts": {
-    "start": "node app/app",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node app/app.js"
   },
-  "author": "Renato Cardoso @re2005",
   "license": "ISC",
   "dependencies": {
-    "gulp-fontello-import": "0.0.1"
+    "fs-path": "0.0.23",
+    "gulp": "^3.9.1",
+    "gulp-fontello-import": "0.0.1",
+    "make-runnable": "^1.0.8",
+    "walk": "^2.3.9"
   }
 }
