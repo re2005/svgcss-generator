@@ -2,40 +2,35 @@
  * Created on 05/05/16.
  * @author Renato  Cardoso @re2005
  */
+"use strict";
 
-var fs = require('fs'),
+let fs = require('fs'),
     walk = require('walk'),
     fsPath = require('fs-path'),
     importer = require('gulp-fontello-import'),
-    config = require('./config');
-
-var cssFile = "",
+    constants = require('./config.js'),
+    cssFile = '',
     name = /embedded/,
     count = 0;
 
-var cb = function () {
-    count = count + 1
-    if (count === 2) {
-        console.log('get font [ok]');
-        findCssFile();
-    }
-};
-
-importer.importSvg({
-    config: 'app/config.json',
-    svgsrc: './svg'
-}, cb);
-
-importer.getFont({
-    host: 'http://fontello.com',
-    config: 'app/config.json',
-    css: 'css'
-}, cb);
-
-(function writeFile() {
-    fsPath.writeFile(config.folder+config.filename, '', function (err) {
+function importSvg() {
+    importer.importSvg({
+        config: constants.CONFIG_JSON,
+        svgsrc: constants.SVG_SRC
+    }, function () {
+        getFont();
     });
-})();
+}
+
+function getFont() {
+    importer.getFont({
+        host: constants.HOST,
+        config: constants.CONFIG_JSON,
+        css: 'css'
+    }, function () {
+        findCssFile();
+    });
+}
 
 function findCssFile() {
 
@@ -57,16 +52,15 @@ function findCssFile() {
 }
 
 function cleanCss() {
-
     // Remove the 6 first lines
     fs.readFile(cssFile, function (err, data) {
         if (err) throw err;
-        var array = data.toString().split("\n");
-        for (i in array) {
-            if (i > 7) {
-                fs.appendFileSync(config.folder+config.filename, array[i].toString() + "\n");
+        let array = data.toString().split("\n");
+        array.forEach(function (line, index) {
+            if (index > 7) {
+                fs.appendFileSync(constants.DESTINATION_FOLDER + constants.FILE_NAME, array[index].toString() + "\n");
             }
-        }
+        });
     });
     console.log('clean css [ok]');
     resetProject();
@@ -75,10 +69,14 @@ function cleanCss() {
 function resetProject() {
     fsPath.remove('./icon-example', function (err) {
         if (err) throw err;
-        console.log('temp foler removed [ok]');
+        console.log('temp folder removed [ok]');
     });
-    fsPath.copy('./app/config.bkp.json', './app/config.json', function(err){
+    fsPath.copy(constants.CONFIG_JSON_BACKUP, constants.CONFIG_JSON, function (err) {
         if (err) throw err;
         console.log('config json copy [ok]');
     });
 }
+
+(function startApp() {
+    importSvg();
+})();
